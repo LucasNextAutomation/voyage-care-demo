@@ -1,17 +1,30 @@
 "use client"
 
 import { useState, useCallback, useRef } from "react"
+import dynamic from "next/dynamic"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   Search, Building2, AlertTriangle, TrendingUp, MapPin,
-  ChevronRight, Filter, Clock, Database, Activity,
-  DollarSign, Users, BarChart3, ArrowUpDown, SlidersHorizontal,
-  Radar
+  ChevronRight, Clock, Database, Activity,
+  Users, ArrowUpDown, SlidersHorizontal,
+  Radar, Layers
 } from "lucide-react"
 import { mockDeals, dashboardStats, type Deal } from "@/data/deals"
 import Navbar from "@/components/Navbar"
 import DealSlideout from "@/components/DealSlideout"
 import Footer from "@/components/Footer"
+
+const ParcelMap = dynamic(() => import("@/components/ParcelMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center bg-gray-50 border border-gray-200 rounded-xl">
+      <div className="flex items-center gap-2 text-xs text-gray-500">
+        <span className="w-2 h-2 rounded-full bg-[#1E3A5F] animate-pulse" />
+        Preparing UK parcel map...
+      </div>
+    </div>
+  ),
+})
 
 function fmt(n: number) {
   if (n >= 1000000) return `£${(n / 1000000).toFixed(1)}M`
@@ -265,6 +278,65 @@ export default function DealFinderPage() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* UK Parcel Map */}
+        <div className="mb-6 grid lg:grid-cols-3 gap-4">
+          <div className="lg:col-span-2 rounded-xl bg-white border border-gray-200 p-3 shadow-sm">
+            <div className="flex items-center justify-between mb-2 px-1">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-lg bg-[#1E3A5F]/10 flex items-center justify-center">
+                  <MapPin className="w-3.5 h-3.5 text-[#1E3A5F]" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-gray-900 leading-tight">Midlands &amp; North West pilot footprint</p>
+                  <p className="text-[10px] text-gray-400 leading-tight">Each marker is a scored parcel &mdash; colour = distress band, click to expand</p>
+                </div>
+              </div>
+              <div className="hidden sm:flex items-center gap-3 text-[10px] text-gray-500">
+                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500" /> 8.0+</span>
+                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-500" /> 6.0&ndash;7.9</span>
+                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500" /> &lt;6.0</span>
+              </div>
+            </div>
+            <div className="h-[360px]">
+              <ParcelMap
+                deals={filteredDeals}
+                selectedDeal={selectedDeal}
+                onSelect={setSelectedDeal}
+                highlightIds={revealedDeals}
+              />
+            </div>
+          </div>
+          <div className="rounded-xl bg-gradient-to-br from-[#1E3A5F] to-[#142B45] text-white p-5 flex flex-col justify-between relative overflow-hidden">
+            <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full blur-3xl bg-[#007cba]/30 pointer-events-none" />
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-3">
+                <Layers className="w-4 h-4 text-[#D4A253]" />
+                <p className="text-[10px] uppercase tracking-[0.2em] font-semibold text-white/70">Morning Brief &mdash; 22 April</p>
+              </div>
+              <p className="text-2xl font-bold tracking-tight leading-tight mb-2">
+                {totalDeals} parcels ranked <span className="text-[#D4A253]">today</span>
+              </p>
+              <p className="text-xs text-white/70 leading-relaxed mb-4">
+                {hiddenDeals.length > 0 && !scanComplete
+                  ? `${hiddenDeals.length} new parcels waiting in queue &mdash; run scan to surface.`
+                  : `${dashboardStats.highDistress} parcels above 8.0 distress. Top pick: ${mockDeals.sort((a, b) => b.distressScore - a.distressScore)[0]?.address || "—"}.`}
+              </p>
+              <div className="space-y-1.5">
+                {["OCOD / Overseas Corporate Owner", "Long-Hold (20+ years)", "Probate / Bona Vacantia"].map((s) => (
+                  <div key={s} className="flex items-center gap-2 text-[11px] text-white/80">
+                    <div className="w-1 h-1 rounded-full bg-[#D4A253]" />
+                    {s}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative mt-4 pt-3 border-t border-white/15 flex items-center justify-between text-[10px] text-white/60">
+              <span>Refreshed daily 06:00 UTC</span>
+              <span>{dashboardStats.sourcesActive} sources live</span>
+            </div>
+          </div>
+        </div>
 
         {/* Stats Row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">

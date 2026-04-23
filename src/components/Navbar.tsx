@@ -4,6 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Map, FileSpreadsheet, Mail, Menu, X } from "lucide-react"
+import VoyageLogo from "./VoyageLogo"
 
 const navItems = [
   { href: "/", label: "Overview" },
@@ -21,12 +22,10 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg flex items-center justify-center font-bold text-white text-sm tracking-tight" style={{ background: "#1E3A5F" }}>
-              VC
-            </div>
-            <div className="hidden sm:block">
-              <span className="text-sm font-semibold text-gray-900 tracking-tight">Voyage Care</span>
-            </div>
+            <VoyageLogo variant="full" className="h-6 sm:h-7" />
+            <span className="hidden md:inline-block text-[10px] uppercase tracking-[0.22em] text-gray-400 border-l border-gray-200 pl-3">
+              Property &amp; Acquisitions
+            </span>
           </Link>
 
           {/* Desktop nav */}

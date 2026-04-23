@@ -43,6 +43,8 @@ export interface Deal {
   unitMix: { type: string; count: number; rent: number }[]
   expenses: { category: string; annual: number }[]
   hidden?: boolean
+  lat?: number
+  lng?: number
 }
 
 // UK parcel / development site mock data.
@@ -54,6 +56,8 @@ export interface Deal {
 export const mockDeals: Deal[] = [
   {
     id: "PARCEL-001",
+    lat: 52.5769,
+    lng: -2.0171,
     address: "Darlaston Road (brownfield rear plot)",
     city: "Walsall",
     state: "West Midlands",
@@ -116,6 +120,8 @@ export const mockDeals: Deal[] = [
   },
   {
     id: "PARCEL-002",
+    lat: 53.5810,
+    lng: -2.4438,
     address: "42 Commonwealth Road (probate sale)",
     city: "Bolton",
     state: "Greater Manchester",
@@ -182,6 +188,8 @@ export const mockDeals: Deal[] = [
   },
   {
     id: "PARCEL-003",
+    lat: 53.0139,
+    lng: -2.1805,
     address: "Former Nurses Home, Meadow Lane",
     city: "Stoke-on-Trent",
     state: "Staffordshire",
@@ -245,6 +253,8 @@ export const mockDeals: Deal[] = [
   },
   {
     id: "PARCEL-004",
+    lat: 53.5468,
+    lng: -2.1187,
     address: "Ashfield House, Crompton Way",
     city: "Oldham",
     state: "Greater Manchester",
@@ -307,6 +317,8 @@ export const mockDeals: Deal[] = [
   },
   {
     id: "PARCEL-005",
+    lat: 52.5252,
+    lng: -1.4717,
     address: "28 Abbey Road (corner plot)",
     city: "Nuneaton",
     state: "Warwickshire",
@@ -369,6 +381,8 @@ export const mockDeals: Deal[] = [
   },
   {
     id: "PARCEL-006",
+    lat: 53.8397,
+    lng: -1.7815,
     address: "Riverside Lodge, Saltaire Bank",
     city: "Bradford",
     state: "West Yorkshire",
@@ -435,6 +449,8 @@ export const mockDeals: Deal[] = [
   },
   {
     id: "PARCEL-007",
+    lat: 52.5896,
+    lng: -2.1224,
     address: "Former Bakery Site, Canal Street",
     city: "Wolverhampton",
     state: "West Midlands",
@@ -500,6 +516,8 @@ export const mockDeals: Deal[] = [
   },
   {
     id: "PARCEL-008",
+    lat: 53.1469,
+    lng: -1.2030,
     address: "Highfield Gardens (site of former school)",
     city: "Mansfield",
     state: "Nottinghamshire",
@@ -564,6 +582,8 @@ export const mockDeals: Deal[] = [
   // Hidden deals — revealed by the "Run Scan" button in the demo.
   {
     id: "PARCEL-009",
+    lat: 52.5088,
+    lng: -2.0894,
     address: "Victoria Mews (probate + brownfield combo)",
     city: "Dudley",
     state: "West Midlands",
@@ -628,6 +648,8 @@ export const mockDeals: Deal[] = [
   },
   {
     id: "PARCEL-010",
+    lat: 53.6145,
+    lng: -2.1549,
     address: "Greenfield Terrace (receivership sale)",
     city: "Rochdale",
     state: "Greater Manchester",
