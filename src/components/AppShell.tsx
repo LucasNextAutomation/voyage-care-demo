@@ -14,6 +14,7 @@ import {
   ChevronRight,
   ShieldCheck,
   Radio,
+  Users,
 } from "lucide-react"
 import VoyageLogo from "./VoyageLogo"
 
@@ -33,6 +34,7 @@ const NAV: NavItem[] = [
   { href: "/scoring", label: "Scoring Engine", icon: Sparkles },
   { href: "/sources", label: "Sources & Compliance", icon: Database },
   { href: "/brief", label: "Morning Brief", icon: Mail },
+  { href: "/team", label: "Team & Way of Working", icon: Users },
 ]
 
 interface AppShellProps {
